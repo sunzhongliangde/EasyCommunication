@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="TCP\" />
+    <PackageReference Include="NetCoreServer" Version="8.0.7" />
   </ItemGroup>
 
 </Project>

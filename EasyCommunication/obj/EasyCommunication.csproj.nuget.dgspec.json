@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sun\\Desktop\\新建文件夹\\EasyCommunication\\EasyCommunication\\EasyCommunication.csproj": {}
+    "D:\\github\\EasyCommunication\\EasyCommunication\\EasyCommunication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sun\\Desktop\\新建文件夹\\EasyCommunication\\EasyCommunication\\EasyCommunication.csproj": {
+    "D:\\github\\EasyCommunication\\EasyCommunication\\EasyCommunication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sun\\Desktop\\新建文件夹\\EasyCommunication\\EasyCommunication\\EasyCommunication.csproj",
+        "projectUniqueName": "D:\\github\\EasyCommunication\\EasyCommunication\\EasyCommunication.csproj",
         "projectName": "EasyCommunication",
-        "projectPath": "C:\\Users\\sun\\Desktop\\新建文件夹\\EasyCommunication\\EasyCommunication\\EasyCommunication.csproj",
+        "projectPath": "D:\\github\\EasyCommunication\\EasyCommunication\\EasyCommunication.csproj",
         "packagesPath": "C:\\Users\\sun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sun\\Desktop\\新建文件夹\\EasyCommunication\\EasyCommunication\\obj\\",
+        "outputPath": "D:\\github\\EasyCommunication\\EasyCommunication\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sun\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "NetCoreServer": {
+              "target": "Package",
+              "version": "[8.0.7, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

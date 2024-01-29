@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "8FAObizCzVX8isULKZfs3/m39g78vrHk/1jCWKAVzUQSC45Jf1WufHcnuzIm6yL87L4JxI6eOZTZdPc3ajRcZQ==",
+  "dgSpecHash": "ifqLxmHSDTpk09bbnaRZWnK7NFYE/OYg5Sbl3iN03X6hs+OggtxiDyN8YMpktynp/HwXW9tTSqcOcOMv1GQUrw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sun\\Desktop\\新建文件夹\\EasyCommunication\\EasyCommunicationDemo\\EasyCommunicationDemo.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\github\\EasyCommunication\\EasyCommunicationDemo\\EasyCommunicationDemo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\sun\\.nuget\\packages\\netcoreserver\\8.0.7\\netcoreserver.8.0.7.nupkg.sha512"
+  ],
   "logs": []
 }
