@@ -26,6 +26,11 @@ namespace EasyCommunicationDemo
                     MessageBox.Show("端口号不合法");
                     return;
                 }
+                if (server != null && server.IsStarted)
+                {
+                    MessageBox.Show("Tcp服务已开启");
+                    return;
+                }
                 server = new ModbusTcpServer(IPAddress.Any, port);
                 server.OnConnectedEvent += Server_OnConnectedEvent;
                 server.OnDisconnectedEvent += Server_OnDisconnectedEvent;
@@ -113,7 +118,11 @@ namespace EasyCommunicationDemo
                 MessageBox.Show("发送消息不能为空");
                 return;
             }
-            server?.Multicast(txt_sendMsg.Text);
+            bool? isSend = server?.Multicast(txt_sendMsg.Text);
+            if (isSend != null && isSend == true)
+            {
+                txt_sendMsg.Text = "";
+            }
         }
     }
 }
