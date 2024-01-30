@@ -32,26 +32,42 @@ namespace EasyCommunicationDemo
                 if (btn_connect.Text == "连接")
                 {
                     client = new ModbusTcpClient(txt_ipAddress.Text, int.Parse(txt_port.Text));
-                    bool connected = client.ConnectAsync();
+                    client.ConnectAsync();
                     client.OnReceivedEvent += Client_OnReceivedEvent;
-                    if (connected)
-                    {
-                        txt_log.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} 已连接\r\n");
-                        btn_connect.Text = "断开";
-                    }
+                    client.OnConnectedEvent += Client_OnConnectedEvent;
+                    client.OnDisconnectedEvent += Client_OnDisconnectedEvent;
                 }
                 else
                 {
                     client?.DisconnectAsync();
-                    btn_connect.Text = "连接";
                 }
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        /// <summary>
+        /// 设备已断开连接
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        private void Client_OnDisconnectedEvent()
+        {
+            btn_connect.Text = "连接";
+        }
+
+        /// <summary>
+        /// 设备已连接到Server
+        /// </summary>
+        private void Client_OnConnectedEvent()
+        {
+            if (client != null && client.IsConnected)
+            {
+                txt_log.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} 已连接\r\n");
+                btn_connect.Text = "断开";
+            }
         }
 
         private void Client_OnReceivedEvent(byte[] buffer, long offset, long size)
@@ -61,6 +77,8 @@ namespace EasyCommunicationDemo
             {
                 txt_log.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} 收到消息：{message}\r\n");
             }));
+
+
         }
 
         private void btn_send_Click(object sender, EventArgs e)
@@ -70,6 +88,12 @@ namespace EasyCommunicationDemo
             {
                 txt_message.Text = "";
             }
+        }
+
+        private void ModbusTcpClientForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            client?.Disconnect();
+            client?.Dispose();
         }
     }
 }

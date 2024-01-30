@@ -21,6 +21,7 @@ namespace EasyCommunicationDemo
         {
             this.Visible = false;
             ModbusTcpServerForm form = new ModbusTcpServerForm();
+            form.StartPosition = FormStartPosition.CenterParent;
             form.ShowDialog();
 
             this.Visible = true;
@@ -31,6 +32,7 @@ namespace EasyCommunicationDemo
         {
             this.Visible = false;
             ModbusTcpClientForm form = new ModbusTcpClientForm();
+            form.StartPosition = FormStartPosition.CenterParent;
             form.ShowDialog();
 
             this.Visible = true;

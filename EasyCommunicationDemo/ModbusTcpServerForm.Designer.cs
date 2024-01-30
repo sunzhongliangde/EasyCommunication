@@ -33,9 +33,20 @@
             btn_tcpListener = new Button();
             groupBox1 = new GroupBox();
             txt_log = new RichTextBox();
-            txt_sendMsg = new TextBox();
+            txt_sendAddress = new TextBox();
             btn_send = new Button();
+            label2 = new Label();
+            groupBox2 = new GroupBox();
+            cbx_slaveAddress = new ComboBox();
+            textBox2 = new TextBox();
+            label6 = new Label();
+            txt_sendData = new TextBox();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            cbx_functionCode = new ComboBox();
             groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // txt_tcpPort
@@ -60,7 +71,7 @@
             // btn_tcpListener
             // 
             btn_tcpListener.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btn_tcpListener.Location = new Point(986, 9);
+            btn_tcpListener.Location = new Point(964, 9);
             btn_tcpListener.Name = "btn_tcpListener";
             btn_tcpListener.Size = new Size(150, 46);
             btn_tcpListener.TabIndex = 2;
@@ -72,10 +83,9 @@
             // groupBox1
             // 
             groupBox1.Controls.Add(txt_log);
-            groupBox1.Dock = DockStyle.Bottom;
-            groupBox1.Location = new Point(0, 363);
+            groupBox1.Location = new Point(12, 363);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1160, 349);
+            groupBox1.Size = new Size(1136, 349);
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "日志";
@@ -87,45 +97,155 @@
             txt_log.Dock = DockStyle.Bottom;
             txt_log.Location = new Point(3, 37);
             txt_log.Name = "txt_log";
-            txt_log.Size = new Size(1154, 309);
+            txt_log.Size = new Size(1130, 309);
             txt_log.TabIndex = 4;
             txt_log.Text = "";
             // 
-            // txt_sendMsg
+            // txt_sendAddress
             // 
-            txt_sendMsg.BorderStyle = BorderStyle.FixedSingle;
-            txt_sendMsg.ForeColor = SystemColors.WindowText;
-            txt_sendMsg.Location = new Point(12, 311);
-            txt_sendMsg.Name = "txt_sendMsg";
-            txt_sendMsg.Size = new Size(968, 38);
-            txt_sendMsg.TabIndex = 4;
+            txt_sendAddress.BorderStyle = BorderStyle.FixedSingle;
+            txt_sendAddress.ForeColor = SystemColors.WindowText;
+            txt_sendAddress.Location = new Point(152, 117);
+            txt_sendAddress.MaxLength = 5;
+            txt_sendAddress.Name = "txt_sendAddress";
+            txt_sendAddress.Size = new Size(100, 38);
+            txt_sendAddress.TabIndex = 4;
             // 
             // btn_send
             // 
             btn_send.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btn_send.Location = new Point(986, 305);
+            btn_send.Location = new Point(952, 58);
             btn_send.Name = "btn_send";
-            btn_send.Size = new Size(150, 46);
+            btn_send.Size = new Size(150, 97);
             btn_send.TabIndex = 5;
             btn_send.Tag = "1";
             btn_send.Text = "发送";
             btn_send.UseVisualStyleBackColor = true;
             btn_send.Click += btn_send_Click;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(6, 56);
+            label2.Name = "label2";
+            label2.Size = new Size(140, 31);
+            label2.TabIndex = 6;
+            label2.Text = "从站设备号:";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(cbx_slaveAddress);
+            groupBox2.Controls.Add(textBox2);
+            groupBox2.Controls.Add(label6);
+            groupBox2.Controls.Add(txt_sendData);
+            groupBox2.Controls.Add(btn_send);
+            groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(label4);
+            groupBox2.Controls.Add(label3);
+            groupBox2.Controls.Add(txt_sendAddress);
+            groupBox2.Controls.Add(cbx_functionCode);
+            groupBox2.Controls.Add(label2);
+            groupBox2.Location = new Point(12, 88);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(1124, 252);
+            groupBox2.TabIndex = 8;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "发送消息";
+            // 
+            // cbx_slaveAddress
+            // 
+            cbx_slaveAddress.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbx_slaveAddress.FormattingEnabled = true;
+            cbx_slaveAddress.IntegralHeight = false;
+            cbx_slaveAddress.Location = new Point(152, 53);
+            cbx_slaveAddress.MaxDropDownItems = 10;
+            cbx_slaveAddress.MaxLength = 6;
+            cbx_slaveAddress.Name = "cbx_slaveAddress";
+            cbx_slaveAddress.Size = new Size(99, 39);
+            cbx_slaveAddress.TabIndex = 15;
+            // 
+            // textBox2
+            // 
+            textBox2.BorderStyle = BorderStyle.FixedSingle;
+            textBox2.Enabled = false;
+            textBox2.ForeColor = SystemColors.WindowText;
+            textBox2.Location = new Point(152, 191);
+            textBox2.MaxLength = 5;
+            textBox2.Name = "textBox2";
+            textBox2.ReadOnly = true;
+            textBox2.Size = new Size(629, 38);
+            textBox2.TabIndex = 14;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(6, 193);
+            label6.Name = "label6";
+            label6.Size = new Size(116, 31);
+            label6.TabIndex = 13;
+            label6.Text = "报文预览:";
+            // 
+            // txt_sendData
+            // 
+            txt_sendData.BorderStyle = BorderStyle.FixedSingle;
+            txt_sendData.ForeColor = SystemColors.WindowText;
+            txt_sendData.Location = new Point(430, 117);
+            txt_sendData.MaxLength = 5;
+            txt_sendData.Name = "txt_sendData";
+            txt_sendData.Size = new Size(351, 38);
+            txt_sendData.TabIndex = 12;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(284, 119);
+            label5.Name = "label5";
+            label5.Size = new Size(140, 31);
+            label5.TabIndex = 11;
+            label5.Text = "寄存器数据:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(6, 119);
+            label4.Name = "label4";
+            label4.Size = new Size(140, 31);
+            label4.TabIndex = 10;
+            label4.Text = "寄存器地址:";
+            // 
+            // label3
+            // 
+            label3.Location = new Point(284, 56);
+            label3.Name = "label3";
+            label3.Size = new Size(140, 31);
+            label3.TabIndex = 9;
+            label3.Text = "功 能 码:";
+            // 
+            // cbx_functionCode
+            // 
+            cbx_functionCode.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbx_functionCode.FormattingEnabled = true;
+            cbx_functionCode.Location = new Point(430, 53);
+            cbx_functionCode.Name = "cbx_functionCode";
+            cbx_functionCode.Size = new Size(351, 39);
+            cbx_functionCode.TabIndex = 8;
+            // 
             // ModbusTcpServerForm
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1160, 712);
-            Controls.Add(btn_send);
-            Controls.Add(txt_sendMsg);
+            ClientSize = new Size(1155, 991);
+            Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(btn_tcpListener);
             Controls.Add(label1);
             Controls.Add(txt_tcpPort);
             Name = "ModbusTcpServerForm";
             Text = "ModbusTcpServer";
+            FormClosing += ModbusTcpServerForm_FormClosing;
             groupBox1.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -137,7 +257,17 @@
         private Button btn_tcpListener;
         private GroupBox groupBox1;
         private RichTextBox txt_log;
-        private TextBox txt_sendMsg;
+        private TextBox txt_sendAddress;
         private Button btn_send;
+        private Label label2;
+        private GroupBox groupBox2;
+        private Label label3;
+        private Label label4;
+        private Label label5;
+        private TextBox txt_sendData;
+        private ComboBox cbx_functionCode;
+        private Label label6;
+        private TextBox textBox2;
+        private ComboBox cbx_slaveAddress;
     }
 }

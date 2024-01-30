@@ -139,6 +139,7 @@
             Controls.Add(btn_connect);
             Name = "ModbusTcpClientForm";
             Text = "ModbusTcpClientForm";
+            FormClosing += ModbusTcpClientForm_FormClosing;
             groupBox1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
