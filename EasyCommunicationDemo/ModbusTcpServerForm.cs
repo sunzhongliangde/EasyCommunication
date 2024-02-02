@@ -1,10 +1,13 @@
 using System;
 using System.Data;
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.IO.Packaging;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using EasyCommunication;
 using EasyCommunication.DataFormat;
 using EasyCommunication.TCP;
@@ -19,7 +22,30 @@ namespace EasyCommunicationDemo
             InitializeComponent();
             BindFunctionCodeDataSource();
             BindSlaveAddress();
+            cbx_Mode.SelectedIndex = 0;
+            // 限制字符合法
+            txt_sendAddress.TextChanged += TextChangedEvent;
+            txt_sendData.TextChanged += TextChangedEvent;
+            txt_sendAddress.MouseMove += Txt_sendAddress_GotFocus;
+            txt_sendData.MouseMove += Txt_sendAddress_GotFocus;
         }
+
+        private void Txt_sendAddress_GotFocus(object? sender, EventArgs e)
+        {
+            TextBox? txt = sender as TextBox;
+            if (txt != null)
+            {
+                if (cbx_functionCode.SelectedIndex >= 6 && txt.TabIndex == 12)
+                {
+                    toolTip1.SetToolTip(txt, "16进制格式，多个数据使用空格隔开");
+                }
+                else
+                {
+                    toolTip1.SetToolTip(txt, "16进制格式");
+                }
+            }
+        }
+
 
         /// <summary>
         /// 开启/断开 TCP服务端
@@ -37,6 +63,7 @@ namespace EasyCommunicationDemo
                 }
                 if (server != null && server.IsStarted)
                 {
+                    btn_tcpListener.Text = "断开";
                     MessageBox.Show("Tcp服务已开启");
                     return;
                 }
@@ -81,7 +108,6 @@ namespace EasyCommunicationDemo
         /// <exception cref="NotImplementedException"></exception>
         private void Server_OnReceivedEvent(NetCoreServer.TcpSession session, byte[] buffer, long offset, long size)
         {
-
             this.Invoke(new Action(() =>
             {
                 txt_log.AppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} 收到消息：{BitConverter.ToString(buffer, 0, (int)size)}\r\n");
@@ -127,22 +153,11 @@ namespace EasyCommunicationDemo
                 return;
             }
 
-            byte[] sendData = new byte[4];
-            // 站号
-            sendData[0] = (Convert.ToByte(cbx_slaveAddress.SelectedValue));
-            // 功能码
-            sendData[1] = (Convert.ToByte(cbx_functionCode.SelectedValue));
-            // 地址
-            sendData[2] = (Convert.ToByte(txt_sendAddress.Text));
-            // 数据
-            sendData[3] = (Convert.ToByte(txt_sendData.Text));
+            var codde = Convert.ToInt32(cbx_functionCode.SelectedValue);
+            var request = new ModbusRTURequestData();
+            byte[] sendDatas = request.GenerateModbusRTU(Convert.ToByte(cbx_slaveAddress.SelectedValue), (ModbusFunctionCodes)codde, txt_sendAddress.Text, txt_sendData.Text);
 
-
-            bool? isSend = server?.Multicast(sendData);
-            if (isSend != null && isSend == true)
-            {
-                txt_sendAddress.Text = "";
-            }
+            bool? isSend = server?.Multicast(sendDatas.ToArray());
         }
 
         private void ModbusTcpServerForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -151,11 +166,14 @@ namespace EasyCommunicationDemo
             server?.Dispose();
         }
 
+        /// <summary>
+        /// 绑定Modbus功能码
+        /// </summary>
         private void BindFunctionCodeDataSource()
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("name");
-            dt.Columns.Add("value");
+            dt.Columns.Add("value", int.MaxValue.GetType());
 
             var row1 = dt.NewRow();
             row1["name"] = "01H：读线圈";
@@ -202,22 +220,130 @@ namespace EasyCommunicationDemo
             cbx_functionCode.DataSource = dt;
         }
 
+        /// <summary>
+        /// 绑定站号
+        /// </summary>
         private void BindSlaveAddress()
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("name");
-            dt.Columns.Add("value", byte.MaxValue.GetType());
+            dt.Columns.Add("value", int.MaxValue.GetType());
             for (int i = 1; i <= 255; i++)
             {
                 var row = dt.NewRow();
 
                 row["name"] = string.Format("0x{0}", i.ToString("X").PadLeft(2, '0'));
-                row["value"] = Convert.ToByte(i);
+                row["value"] = i;
                 dt.Rows.Add(row);
             }
             cbx_slaveAddress.DisplayMember = "name";
             cbx_slaveAddress.ValueMember = "value";
             cbx_slaveAddress.DataSource = dt;
         }
+
+        private void TextChangedEvent(object? sender, EventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null)
+            {
+                return;
+            }
+            if (cbx_functionCode.SelectedIndex >= 6)
+            {
+                // 生成Modbus预览指令数据
+                BuildModbusCommand();
+                return;
+            }
+            var reg = new Regex("^[0-9A-Fa-f]+$");
+            var str = textbox.Text.Trim();
+            var sb = new StringBuilder();
+            if (!reg.IsMatch(str))
+            {
+                for (int i = 0; i < str.Length; i++)
+                {
+                    if (reg.IsMatch(str[i].ToString()))
+                    {
+                        sb.Append(str[i].ToString());
+                    }
+                }
+                textbox.Text = sb.ToString();
+                //定义输入焦点在最后一个字符
+                textbox.SelectionStart = textbox.Text.Length;
+            }
+
+            // 生成Modbus预览指令数据
+            BuildModbusCommand();
+        }
+
+        /// <summary>
+        /// Modbus功能码下拉框更改事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbx_functionCode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (cbx_functionCode.SelectedIndex)
+            {
+                case 0:
+                    txt_functionText.Text = "线圈数量：";
+                    break;
+                case 1:
+                    txt_functionText.Text = "输入区数量：";
+                    break;
+                case 2:
+                    txt_functionText.Text = "寄存器数量：";
+                    break;
+                case 3:
+                    txt_functionText.Text = "寄存器数量：";
+                    break;
+                case 4:
+                    txt_functionText.Text = "线圈状态值：";
+                    break;
+                case 5:
+                    txt_functionText.Text = "寄存器数据：";
+                    break;
+                case 6:
+                    txt_functionText.Text = "线圈状态值：";
+                    break;
+                default:
+                    txt_functionText.Text = "寄存器数据：";
+                    break;
+            }
+            if (cbx_functionCode.SelectedIndex >= 6)
+            {
+                // 取消长度限制
+                txt_sendData.MaxLength = 128;
+            }
+            else
+            {
+                txt_sendData.MaxLength = 4;
+            }
+            txt_sendData.Text = "";
+            BuildModbusCommand();
+        }
+
+        /// <summary>
+        /// 生成指令预览功能
+        /// </summary>
+        private void BuildModbusCommand()
+        {
+            if (txt_sendAddress.Text.Trim().Length == 0 || txt_sendData.Text.Trim().Length == 0)
+            {
+                return;
+            }
+
+            var codde = Convert.ToInt32(cbx_functionCode.SelectedValue);
+
+            var request = new ModbusRTURequestData();
+            byte[] sendDatas = request.GenerateModbusRTU(Convert.ToByte(cbx_slaveAddress.SelectedValue), (ModbusFunctionCodes)codde, txt_sendAddress.Text, txt_sendData.Text);
+
+            List<string> commandList = new List<string>();
+            foreach (byte data in sendDatas)
+            {
+                commandList.Add(data.ToString("X").PadLeft(2, '0'));
+            }
+            txt_preview.Text = string.Join(',', commandList);
+        }
+
     }
 }

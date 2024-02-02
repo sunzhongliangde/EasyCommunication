@@ -42,11 +42,26 @@ namespace EasyCommunication
         /// 写多个线圈
         /// </summary>
         WriteMultipleCoils = 15,
-        
+
         /// <summary>
         /// 写多个寄存器
         /// </summary>
         WriteMultipleRegisters = 16,
-        
+    }
+
+    /// <summary>
+    /// Modbus 协议
+    /// </summary>
+    public enum ModbusType
+    {
+        /// <summary>
+        /// Modbus TCP
+        /// </summary>
+        TCP = 1,
+
+        /// <summary>
+        /// Modbus RTU
+        /// </summary>
+        RTU = 2,
     }
 }

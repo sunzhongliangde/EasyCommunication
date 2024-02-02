@@ -137,6 +137,7 @@
             Controls.Add(label1);
             Controls.Add(txt_ipAddress);
             Controls.Add(btn_connect);
+            MaximizeBox = false;
             Name = "ModbusTcpClientForm";
             Text = "ModbusTcpClientForm";
             FormClosing += ModbusTcpClientForm_FormClosing;

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             txt_tcpPort = new TextBox();
             label1 = new Label();
             btn_tcpListener = new Button();
@@ -37,14 +38,17 @@
             btn_send = new Button();
             label2 = new Label();
             groupBox2 = new GroupBox();
+            cbx_Mode = new ComboBox();
+            label7 = new Label();
             cbx_slaveAddress = new ComboBox();
-            textBox2 = new TextBox();
+            txt_preview = new TextBox();
             label6 = new Label();
             txt_sendData = new TextBox();
-            label5 = new Label();
+            txt_functionText = new Label();
             label4 = new Label();
             label3 = new Label();
             cbx_functionCode = new ComboBox();
+            toolTip1 = new ToolTip(components);
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -83,7 +87,7 @@
             // groupBox1
             // 
             groupBox1.Controls.Add(txt_log);
-            groupBox1.Location = new Point(12, 363);
+            groupBox1.Location = new Point(12, 630);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(1136, 349);
             groupBox1.TabIndex = 3;
@@ -105,10 +109,10 @@
             // 
             txt_sendAddress.BorderStyle = BorderStyle.FixedSingle;
             txt_sendAddress.ForeColor = SystemColors.WindowText;
-            txt_sendAddress.Location = new Point(152, 117);
-            txt_sendAddress.MaxLength = 5;
+            txt_sendAddress.Location = new Point(152, 201);
+            txt_sendAddress.MaxLength = 4;
             txt_sendAddress.Name = "txt_sendAddress";
-            txt_sendAddress.Size = new Size(100, 38);
+            txt_sendAddress.Size = new Size(99, 38);
             txt_sendAddress.TabIndex = 4;
             // 
             // btn_send
@@ -126,7 +130,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(6, 56);
+            label2.Location = new Point(6, 140);
             label2.Name = "label2";
             label2.Size = new Size(140, 31);
             label2.TabIndex = 6;
@@ -134,12 +138,14 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(cbx_Mode);
+            groupBox2.Controls.Add(label7);
             groupBox2.Controls.Add(cbx_slaveAddress);
-            groupBox2.Controls.Add(textBox2);
+            groupBox2.Controls.Add(txt_preview);
             groupBox2.Controls.Add(label6);
             groupBox2.Controls.Add(txt_sendData);
             groupBox2.Controls.Add(btn_send);
-            groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(txt_functionText);
             groupBox2.Controls.Add(label4);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(txt_sendAddress);
@@ -147,39 +153,61 @@
             groupBox2.Controls.Add(label2);
             groupBox2.Location = new Point(12, 88);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1124, 252);
+            groupBox2.Size = new Size(1124, 350);
             groupBox2.TabIndex = 8;
             groupBox2.TabStop = false;
             groupBox2.Text = "发送消息";
+            // 
+            // cbx_Mode
+            // 
+            cbx_Mode.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbx_Mode.FormattingEnabled = true;
+            cbx_Mode.IntegralHeight = false;
+            cbx_Mode.Items.AddRange(new object[] { "Modbus RTU", "Modbus TCP" });
+            cbx_Mode.Location = new Point(125, 55);
+            cbx_Mode.MaxDropDownItems = 10;
+            cbx_Mode.MaxLength = 6;
+            cbx_Mode.Name = "cbx_Mode";
+            cbx_Mode.Size = new Size(217, 39);
+            cbx_Mode.TabIndex = 17;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(6, 58);
+            label7.Name = "label7";
+            label7.Size = new Size(134, 31);
+            label7.TabIndex = 16;
+            label7.Text = "协议类型：";
             // 
             // cbx_slaveAddress
             // 
             cbx_slaveAddress.DropDownStyle = ComboBoxStyle.DropDownList;
             cbx_slaveAddress.FormattingEnabled = true;
             cbx_slaveAddress.IntegralHeight = false;
-            cbx_slaveAddress.Location = new Point(152, 53);
+            cbx_slaveAddress.Location = new Point(152, 137);
             cbx_slaveAddress.MaxDropDownItems = 10;
             cbx_slaveAddress.MaxLength = 6;
             cbx_slaveAddress.Name = "cbx_slaveAddress";
             cbx_slaveAddress.Size = new Size(99, 39);
             cbx_slaveAddress.TabIndex = 15;
             // 
-            // textBox2
+            // txt_preview
             // 
-            textBox2.BorderStyle = BorderStyle.FixedSingle;
-            textBox2.Enabled = false;
-            textBox2.ForeColor = SystemColors.WindowText;
-            textBox2.Location = new Point(152, 191);
-            textBox2.MaxLength = 5;
-            textBox2.Name = "textBox2";
-            textBox2.ReadOnly = true;
-            textBox2.Size = new Size(629, 38);
-            textBox2.TabIndex = 14;
+            txt_preview.BorderStyle = BorderStyle.FixedSingle;
+            txt_preview.Enabled = false;
+            txt_preview.ForeColor = SystemColors.WindowText;
+            txt_preview.Location = new Point(152, 275);
+            txt_preview.MaxLength = 5;
+            txt_preview.Name = "txt_preview";
+            txt_preview.ReadOnly = true;
+            txt_preview.Size = new Size(629, 38);
+            txt_preview.TabIndex = 14;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(6, 193);
+            label6.Location = new Point(6, 277);
             label6.Name = "label6";
             label6.Size = new Size(116, 31);
             label6.TabIndex = 13;
@@ -189,25 +217,25 @@
             // 
             txt_sendData.BorderStyle = BorderStyle.FixedSingle;
             txt_sendData.ForeColor = SystemColors.WindowText;
-            txt_sendData.Location = new Point(430, 117);
-            txt_sendData.MaxLength = 5;
+            txt_sendData.Location = new Point(430, 201);
+            txt_sendData.MaxLength = 4;
             txt_sendData.Name = "txt_sendData";
             txt_sendData.Size = new Size(351, 38);
             txt_sendData.TabIndex = 12;
             // 
-            // label5
+            // txt_functionText
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(284, 119);
-            label5.Name = "label5";
-            label5.Size = new Size(140, 31);
-            label5.TabIndex = 11;
-            label5.Text = "寄存器数据:";
+            txt_functionText.AutoSize = true;
+            txt_functionText.Location = new Point(284, 203);
+            txt_functionText.Name = "txt_functionText";
+            txt_functionText.Size = new Size(116, 31);
+            txt_functionText.TabIndex = 11;
+            txt_functionText.Text = "线圈数量:";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(6, 119);
+            label4.Location = new Point(6, 203);
             label4.Name = "label4";
             label4.Size = new Size(140, 31);
             label4.TabIndex = 10;
@@ -215,7 +243,7 @@
             // 
             // label3
             // 
-            label3.Location = new Point(284, 56);
+            label3.Location = new Point(284, 140);
             label3.Name = "label3";
             label3.Size = new Size(140, 31);
             label3.TabIndex = 9;
@@ -225,23 +253,34 @@
             // 
             cbx_functionCode.DropDownStyle = ComboBoxStyle.DropDownList;
             cbx_functionCode.FormattingEnabled = true;
-            cbx_functionCode.Location = new Point(430, 53);
+            cbx_functionCode.Location = new Point(430, 137);
             cbx_functionCode.Name = "cbx_functionCode";
             cbx_functionCode.Size = new Size(351, 39);
             cbx_functionCode.TabIndex = 8;
+            cbx_functionCode.SelectedIndexChanged += cbx_functionCode_SelectedIndexChanged;
+            // 
+            // toolTip1
+            // 
+            toolTip1.AutomaticDelay = 100;
+            toolTip1.AutoPopDelay = 3000;
+            toolTip1.BackColor = Color.FromArgb(192, 192, 255);
+            toolTip1.InitialDelay = 100;
+            toolTip1.IsBalloon = true;
+            toolTip1.ReshowDelay = 20;
             // 
             // ModbusTcpServerForm
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1155, 991);
+            ClientSize = new Size(1166, 1024);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(btn_tcpListener);
             Controls.Add(label1);
             Controls.Add(txt_tcpPort);
+            MaximizeBox = false;
             Name = "ModbusTcpServerForm";
-            Text = "ModbusTcpServer";
+            Text = "ModbusTcpServer（By 郑州正控）";
             FormClosing += ModbusTcpServerForm_FormClosing;
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
@@ -263,11 +302,14 @@
         private GroupBox groupBox2;
         private Label label3;
         private Label label4;
-        private Label label5;
+        private Label txt_functionText;
         private TextBox txt_sendData;
         private ComboBox cbx_functionCode;
         private Label label6;
-        private TextBox textBox2;
+        private TextBox txt_preview;
         private ComboBox cbx_slaveAddress;
+        private Label label7;
+        private ComboBox cbx_Mode;
+        private ToolTip toolTip1;
     }
 }
