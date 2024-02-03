@@ -38,15 +38,9 @@ namespace EasyCommunication
                 sendData.AddRange(sourceByte.Reverse());
                 sendData.Add(byte.Parse("1"));
                 // 添加数据
-
-                //foreach (string item in array)
-                //{
-                //    var ditem = item == "0" ? "0" : "ff00";
-                //    UInt16 coilsInt16 = Convert.ToUInt16(string.Format("0x{0}", ditem), 16);
-                //    byte[] coilsByteArray = BitConverter.GetBytes(coilsInt16);
-                //    sendData.AddRange(coilsByteArray.Reverse());
-                //}
-                sendData.Add(Convert.ToByte(string.Join("", array).PadLeft(16, '0')));
+                string c = Convert.ToInt32(string.Join("", array), 2).ToString("X2");
+                UInt16 cInt16 = Convert.ToUInt16(string.Format("0x{0}", c), 16);
+                sendData.Add(Convert.ToByte(cInt16));
             }
             else if (functionCode == ModbusFunctionCodes.WriteMultipleRegisters)// 10: 写多个寄存器(WriteMultipleRegisters)
             {
