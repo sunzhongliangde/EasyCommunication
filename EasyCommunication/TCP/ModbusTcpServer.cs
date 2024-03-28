@@ -47,10 +47,10 @@ namespace EasyCommunication.TCP
         /// <summary>
         /// 收到消息时
         /// </summary>
-        /// <param name="session"></param>
-        /// <param name="buffer"></param>
-        /// <param name="offset"></param>
-        /// <param name="size"></param>
+        /// <param name="session">客户端连接</param>
+        /// <param name="buffer">收到的 buffer</param>
+        /// <param name="offset">收到的 buffer offset</param>
+        /// <param name="size">收到的 buffer size</param>
         private void Session_OnReceivedEvent(TcpSession session, byte[] buffer, long offset, long size)
         {
             OnReceivedEvent?.Invoke(session, buffer, offset, size);

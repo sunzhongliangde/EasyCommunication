@@ -7,7 +7,7 @@ using System.Text;
 namespace EasyCommunication.Utility
 {
     /// <summary>
-    ///     Modbus utility methods.
+    /// Modbus utility methods.
     /// </summary>
     public static class ModbusUtility
     {
@@ -48,7 +48,7 @@ namespace EasyCommunication.Utility
         };
 
         /// <summary>
-        ///     Converts four UInt16 values into a IEEE 64 floating point format.
+        /// Converts four UInt16 values into a IEEE 64 floating point format.
         /// </summary>
         /// <param name="b3">Highest-order ushort value.</param>
         /// <param name="b2">Second-to-highest-order ushort value.</param>
@@ -67,7 +67,7 @@ namespace EasyCommunication.Utility
         }
 
         /// <summary>
-        ///     Converts two UInt16 values into a IEEE 32 floating point format.
+        /// Converts two UInt16 values into a IEEE 32 floating point format.
         /// </summary>
         /// <param name="highOrderValue">High order ushort value.</param>
         /// <param name="lowOrderValue">Low order ushort value.</param>
@@ -82,7 +82,7 @@ namespace EasyCommunication.Utility
         }
 
         /// <summary>
-        ///     Converts two UInt16 values into a UInt32.
+        /// Converts two UInt16 values into a UInt32.
         /// </summary>
         public static uint GetUInt32(ushort highOrderValue, ushort lowOrderValue)
         {
@@ -94,7 +94,7 @@ namespace EasyCommunication.Utility
         }
 
         /// <summary>
-        ///     Converts an array of bytes to an ASCII byte array.
+        /// Converts an array of bytes to an ASCII byte array.
         /// </summary>
         /// <param name="numbers">The byte array.</param>
         /// <returns>An array of ASCII byte values.</returns>
@@ -104,7 +104,7 @@ namespace EasyCommunication.Utility
         }
 
         /// <summary>
-        ///     Converts an array of UInt16 to an ASCII byte array.
+        /// Converts an array of UInt16 to an ASCII byte array.
         /// </summary>
         /// <param name="numbers">The ushort array.</param>
         /// <returns>An array of ASCII byte values.</returns>
@@ -114,7 +114,7 @@ namespace EasyCommunication.Utility
         }
 
         /// <summary>
-        ///     Converts a network order byte array to an array of UInt16 values in host order.
+        /// Converts a network order byte array to an array of UInt16 values in host order.
         /// </summary>
         /// <param name="networkBytes">The network order byte array.</param>
         /// <returns>The host order ushort array.</returns>
@@ -141,7 +141,7 @@ namespace EasyCommunication.Utility
         }
 
         /// <summary>
-        ///     Converts a hex string to a byte array.
+        /// Converts a hex string to a byte array.
         /// </summary>
         /// <param name="hex">The hex string.</param>
         /// <returns>Array of bytes.</returns>
@@ -168,7 +168,7 @@ namespace EasyCommunication.Utility
         }
 
         /// <summary>
-        ///     Calculate Longitudinal Redundancy Check.
+        /// Calculate Longitudinal Redundancy Check.
         /// </summary>
         /// <param name="data">The data used in LRC.</param>
         /// <returns>LRC value.</returns>
@@ -192,7 +192,7 @@ namespace EasyCommunication.Utility
         }
 
         /// <summary>
-        ///     Calculate Cyclical Redundancy Check.
+        /// Calculate Cyclical Redundancy Check.
         /// </summary>
         /// <param name="data">The data used in CRC.</param>
         /// <returns>CRC value.</returns>
