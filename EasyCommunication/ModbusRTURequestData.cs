@@ -11,6 +11,7 @@ using EasyCommunication;
 using NetCoreServer;
 using EasyCommunication.Common.Helpers;
 using EasyCommunication.Enums;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EasyCommunication
 {
@@ -24,7 +25,7 @@ namespace EasyCommunication
         /// <summary>
         /// 单个线圈写入
         /// </summary>
-        /// <param name="address">地址</param>
+        /// <param name="address">寄存器起始地址</param>
         /// <param name="value">线圈状态</param>
         /// <param name="stationNumber">站号</param>
         /// <param name="functionCode">功能码</param>
@@ -32,25 +33,26 @@ namespace EasyCommunication
         {
             byte[] command = ModbusRTURequestData.GetWriteCoilCommand(address, value, stationNumber, 5);
             byte[] commandCRC16 = CRC16.GetCRC16(command);
-            commandCRC16.CopyTo(command, command.Length + 1);
-            return command;
+
+            byte[] mergedArray = command.Concat(commandCRC16).ToArray();
+            return mergedArray;
         }
         /// <summary>
         /// 多条写入
         /// </summary>
-        /// <param name="address"></param>
-        /// <param name="values"></param>
-        /// <param name="stationNumber"></param>
-        /// <param name="functionCode"></param>
+        /// <param name="address">寄存器起始地址</param>
+        /// <param name="values">数据集合</param>
+        /// <param name="stationNumber">站号</param>
+        /// <param name="functionCode">功能码</param>
         /// <returns></returns>
-        public byte[] Write(string address, byte[] values, byte stationNumber = 1, byte functionCode = 16, bool byteFormatting = true)
+        public byte[] Write(string address, byte[] values, byte stationNumber = 1, byte functionCode = 16)
         {
             values = values.ByteFormatting(EndianFormat.ABCD);
             var command = GetWriteCommand(address, values, stationNumber, functionCode);
             var commandCRC16 = CRC16.GetCRC16(command);
 
-            commandCRC16.CopyTo(command, command.Length + 1);
-            return command;
+            byte[] mergedArray = command.Concat(commandCRC16).ToArray();
+            return mergedArray;
         }
 
         /// <summary>
@@ -67,16 +69,16 @@ namespace EasyCommunication
             byte[] command = GetReadCommand(address, stationNumber, functionCode, readLength);
             var commandCRC16 = CRC16.GetCRC16(command);
 
-            commandCRC16.CopyTo(command, command.Length + 1);
-            return command;
+            byte[] mergedArray = command.Concat(commandCRC16).ToArray();
+            return mergedArray;
         }
 
 
-        public byte[] GenerateModbusRTU(byte slaveAddress, ModbusFunctionCodes functionCode, string address, string data)
+        public byte[] GenerateModbusRTU(byte stationNumber, ModbusFunctionCodes functionCode, string address, string data)
         {
             List<byte> sendData = new List<byte>();
             // 站号
-            sendData.Add(slaveAddress);
+            sendData.Add(stationNumber);
             // 功能码
             sendData.Add(Convert.ToByte(functionCode));
 

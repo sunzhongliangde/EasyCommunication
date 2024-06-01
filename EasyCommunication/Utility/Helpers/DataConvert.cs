@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EasyCommunication.Common.Helpers
 {
@@ -23,82 +24,51 @@ namespace EasyCommunication.Common.Helpers
         /// <summary>
         /// 16进制字符串转字节数组
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="strict">严格模式（严格按两个字母间隔一个空格）</param>
+        /// <param name="str">字符串</param>
         /// <returns></returns>
-        public static byte[] StringToByteArray(this string str, bool strict = true)
+        public static byte[] StringToByteArray(this string str)
         {
-            if (string.IsNullOrWhiteSpace(str) || str.Trim().Replace(" ", "").Length % 2 != 0)
+            if (string.IsNullOrWhiteSpace(str))
                 throw new ArgumentException("请传入有效的参数");
 
-            if (strict)
-            {
-                return str.Split(' ').Where(t => t?.Length == 2).Select(t => Convert.ToByte(t, 16)).ToArray();
-            }
-            else
-            {
-                str = str.Trim().Replace(" ", "");
-                var list = new List<byte>();
-                for (int i = 0; i < str.Length; i++)
-                {
-                    var string16 = str[i].ToString() + str[++i].ToString();
-                    list.Add(Convert.ToByte(string16, 16));
-                }
-                return list.ToArray();
-            }
+            //string[] array = str.Trim().Split(' ');
+            //// 添加数量
+            //UInt16 sourceInt16 = Convert.ToUInt16(string.Format("0x{0}", array.Length), 16);
+            //byte[] sourceByte = BitConverter.GetBytes(sourceInt16);
+            //// 添加数据
+            //string c = Convert.ToInt32(string.Join("", array), 2).ToString("X2");
+            //UInt16 cInt16 = Convert.ToUInt16(string.Format("0x{0}", c), 16);
+
+            //return [];
+            return str.Split(' ').Where(t => t?.Length != 0).Select(t => Convert.ToByte(t, 16)).ToArray();
+
+            //if (strict)
+            //{
+            //    string[] array = str.Trim().Split(' ');
+            //    // 添加数量
+            //    UInt16 sourceInt16 = Convert.ToUInt16(string.Format("0x{0}", array.Length), 16);
+            //    byte[] sourceByte = BitConverter.GetBytes(sourceInt16);
+            //    // 添加数据
+            //    string c = Convert.ToInt32(string.Join("", array), 2).ToString("X2");
+            //    UInt16 cInt16 = Convert.ToUInt16(string.Format("0x{0}", c), 16);
+
+            //    return [];
+            //    return str.Split(' ').Where(t => t?.Length != 0).Select(t => Convert.ToByte(t, 16)).ToArray();
+            //}
+            //else
+            //{
+            //    str = str.Trim().Replace(" ", "");
+            //    var list = new List<byte>();
+            //    for (int i = 0; i < str.Length; i++)
+            //    {
+            //        var string16 = str[i].ToString() + str[++i].ToString();
+            //        list.Add(Convert.ToByte(string16, 16));
+            //    }
+            //    return list.ToArray();
+            //}
         }
 
-        /// <summary>
-        /// Asciis字符串数组字符串装字节数组
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="strict"></param>
-        /// <returns></returns>
-        public static byte[] AsciiStringToByteArray(this string str, bool strict = true)
-        {
-            if (string.IsNullOrWhiteSpace(str) || str.Trim().Replace(" ", "").Length % 2 != 0)
-                throw new ArgumentException("请传入有效的参数");
 
-            if (strict)
-            {
-                List<string> stringList = new List<string>();
-                foreach (var item in str.Split(' '))
-                {
-                    stringList.Add(((char)(Convert.ToByte(item, 16))).ToString());
-                }
-                return StringToByteArray(string.Join("", stringList), false);
-            }
-            else
-            {
-                str = str.Trim().Replace(" ", "");
-                var stringList = new List<string>();
-                for (int i = 0; i < str.Length; i++)
-                {
-                    var stringAscii = str[i].ToString() + str[++i].ToString();
-                    stringList.Add(((char)Convert.ToByte(stringAscii, 16)).ToString());
-                }
-                return StringToByteArray(string.Join("", stringList), false);
-            }
-        }
-
-        /// <summary>
-        /// Asciis数组字符串转字节数组
-        /// 如：30 31 =》 00 01
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static byte[] AsciiArrayToByteArray(this byte[] str)
-        {
-            if (!str?.Any() ?? true)
-                throw new ArgumentException("请传入有效的参数");
-
-            List<string> stringList = new List<string>();
-            foreach (var item in str)
-            {
-                stringList.Add(((char)item).ToString());
-            }
-            return StringToByteArray(string.Join("", stringList), false);
-        }
 
         /// <summary>
         /// 字节数组转换成Ascii字节数组
